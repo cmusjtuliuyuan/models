@@ -158,15 +158,15 @@ if __name__ == '__main__':
         help="batch_size"
     )
     optparser.add_option(
-        "--num_batches", default=100,
+        "--num_batches", default=100, type='int',
          help="number of batches to run"
     )
     optparser.add_option(
-        "--image_size", default=224,
+            "--image_size", default=224, type='int',
          help="size of image defaut is 224"
     )
     optparser.add_option(
-        "--learning_rate", default=0.001,
+        "--learning_rate", default=0.001, type='float',
     )
     optparser.add_option(
         "--model_type", default='inception_v1',
