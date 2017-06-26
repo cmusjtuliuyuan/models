@@ -41,8 +41,10 @@ import time
 import numpy as np
 
 from six.moves import xrange  # pylint: disable=redefined-builtin
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
-sys.path.append("/home/arda/yuan.liu/models/slim")
+sys.path.append(".")
 opts=None
 
 def placeholder_inputs():
@@ -107,8 +109,8 @@ def time_tensorflow_run(session, target, images_placeholder, labels_placeholder,
   mn = total_duration / opts.num_batches
   vr = total_duration_squared / opts.num_batches - mn * mn
   sd = math.sqrt(vr)
-  print ('%s: %s across %d steps, %.3f +/- %.3f sec / batch' %
-         (datetime.now(), info_string, opts.num_batches, mn, sd))
+  print ('%s across %d steps, %.3f +/- %.3f sec / batch. Throughput is %.3f sample / sec.' %
+         (info_string, opts.num_batches, mn, sd, opts.num_batches*opts.batch_size/total_duration))
 
 def run_benchmark():
   """Run the benchmark on Inception_V1."""
@@ -152,7 +154,7 @@ ResNet = False
 if __name__ == '__main__':
     optparser = optparse.OptionParser()
     optparser.add_option(
-        "--batch_size", default=32,
+        "--batch_size", default=32, type='int',
         help="batch_size"
     )
     optparser.add_option(
@@ -206,5 +208,6 @@ if __name__ == '__main__':
         from nets.vgg import vgg_16 as inference
     elif opts.model_type=='vgg_19':
         from nets.vgg import vgg_19 as inference
+    print("Model:"+opts.model_type+". Batch size is: "+str(opts.batch_size))
     run_benchmark()
 

@@ -1,42 +1,29 @@
 #!/bin/sh
-echo 'inception_v1'
-python nets/benchmark.py --model_type inception_v1
 
-echo 'inception_v2'
-python nets/benchmark.py --model_type inception_v2
+python nets/benchmark.py --model_type inception_v1 --batch_size 128
 
-echo 'inception_v3'
-python nets/benchmark.py --model_type inception_v3
+python nets/benchmark.py --model_type inception_v2 --batch_size 128
 
-echo 'alexnet_v2'
-python nets/benchmark.py --model_type alexnet_v2
+python nets/benchmark.py --model_type inception_v3 --batch_size 128
 
-echo 'resnet_v1_50'
-python nets/benchmark.py --model_type resnet_v1_50
+python nets/benchmark.py --model_type alexnet_v2 --batch_size 256
 
-echo 'resnet_v1_101'
-python nets/benchmark.py --model_type resnet_v1_101
+python nets/benchmark.py --model_type resnet_v1_50 --batch_size 64
 
-echo 'resnet_v1_152'
-python nets/benchmark.py --model_type resnet_v1_152
+python nets/benchmark.py --model_type resnet_v1_101 --batch_size 64
 
-echo 'resnet_v1_200'
-python nets/benchmark.py --model_type resnet_v1_200
+python nets/benchmark.py --model_type resnet_v1_152 --batch_size 64
 
-echo 'resnet_v2_50'
-python nets/benchmark.py --model_type resnet_v2_50
+python nets/benchmark.py --model_type resnet_v1_200 --batch_size 64
 
-echo 'resnet_v2_101'
-python nets/benchmark.py --model_type resnet_v2_101
+python nets/benchmark.py --model_type resnet_v2_50 --batch_size 64
 
-echo 'resnet_v2_152'
-python nets/benchmark.py --model_type resnet_v2_152
+python nets/benchmark.py --model_type resnet_v2_101 --batch_size 64
 
-echo 'resnet_v2_200'
-python nets/benchmark.py --model_type resnet_v2_200
+python nets/benchmark.py --model_type resnet_v2_152 --batch_size 64
 
-echo 'vgg_16'
-python nets/benchmark.py --model_type vgg_16
+python nets/benchmark.py --model_type resnet_v2_200 --batch_size 64
 
-echo 'vgg_19'
-python nets/benchmark.py --model_type vgg_19
+python nets/benchmark.py --model_type vgg_16 --batch_size 64
+
+python nets/benchmark.py --model_type vgg_19 --batch_size 64
