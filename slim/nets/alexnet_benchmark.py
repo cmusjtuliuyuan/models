@@ -14,7 +14,7 @@ import sys
 
 
 parameters = []
-data_format = 'NCHW'
+data_format = 'NHWC'
 conv_counter = 1
 pool_counter = 1
 affine_counter = 1

@@ -101,9 +101,9 @@ def time_tensorflow_run(session, target, images_placeholder, labels_placeholder,
     _ = session.run(target, feed_dict=feed_dict)
     duration = time.time() - start_time
     if i >= num_steps_burn_in:
-      #if not i % 10:
-        #print ('%s: step %d, duration = %.3f' %
-        #       (datetime.now(), i - num_steps_burn_in, duration))
+      if not i % 10:
+        print ('%s: step %d, duration = %.3f' %
+               (datetime.now(), i - num_steps_burn_in, duration))
       total_duration += duration
       total_duration_squared += duration * duration
   mn = total_duration / opts.num_batches
@@ -210,6 +210,8 @@ if __name__ == '__main__':
         from nets.vgg import vgg_19 as inference
     elif opts.model_type=='alexnet_v1':
 	from nets.alexnet_v1 import alexnet_v1 as inference
+    elif opts.model_type=='alexnet_benchmark':
+        from nets.alexnet_benchmark import inference as inference
     print("Model:"+opts.model_type+". Batch size is: "+str(opts.batch_size))
     run_benchmark()
 
