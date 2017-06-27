@@ -42,7 +42,7 @@ slim = tf.contrib.slim
 trunc_normal = lambda stddev: tf.truncated_normal_initializer(0.0, stddev)
 
 
-def alexnet_v2_arg_scope(weight_decay=0.0005):
+def alexnet_v1_arg_scope(weight_decay=0.0005):
   with slim.arg_scope([slim.conv2d],
                       activation_fn=tf.nn.relu,
                       biases_initializer=tf.constant_initializer(0.1),
@@ -52,7 +52,7 @@ def alexnet_v2_arg_scope(weight_decay=0.0005):
         return arg_sc
 
 
-def alexnet_v2(inputs,
+def alexnet_v1(inputs,
                num_classes=1000,
                is_training=True,
                dropout_keep_prob=0.5,
@@ -110,7 +110,7 @@ def alexnet_v2(inputs,
         # net = slim.dropout(net, dropout_keep_prob, is_training=is_training,
         #                    scope='dropout6')
         # net = slim.conv2d(net, 4096, [1, 1], scope='fc7')
-        net = slim.legacy_fully_connected(net, 4096)
+        net = slim.legacy_fully_connected(net, 4096, activation_fn=tf.nn.relu)
         # net = slim.dropout(net, dropout_keep_prob, is_training=is_training,
         #                    scope='dropout7')
         # net = slim.conv2d(net, num_classes, [1, 1],
@@ -118,7 +118,7 @@ def alexnet_v2(inputs,
         #                   normalizer_fn=None,
         #                   biases_initializer=tf.zeros_initializer(),
         #                   scope='fc8')
-        net = slim.legacy_fully_connected(net, num_classes)
+        net = slim.legacy_fully_connected(net, num_classes, activation_fn=tf.nn.relu)
 
       # Convert end_points_collection into a end_point dict.
       end_points = slim.utils.convert_collection_to_dict(end_points_collection)
@@ -126,4 +126,3 @@ def alexnet_v2(inputs,
         net = tf.squeeze(net, [2, 3], name='fc8/squeezed')
         end_points[sc.name + '/fc8'] = net
       return net, end_points
-alexnet_v2.default_image_size = 224

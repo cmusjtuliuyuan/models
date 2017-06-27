@@ -54,10 +54,10 @@ def placeholder_inputs():
   """
   batch_size = opts.batch_size
   image_size = opts.image_size
-  images_placeholder = tf.placeholder(tf.float32, shape=(batch_size,
+  images_placeholder = tf.placeholder(tf.float32, shape=(batch_size,3,
                                                         image_size,
                                                         image_size,
-                                                        3))
+                                                        ))
   labels_placeholder = tf.placeholder(tf.int32, shape=(batch_size))
   return images_placeholder, labels_placeholder
 
@@ -93,7 +93,7 @@ def time_tensorflow_run(session, target, images_placeholder, labels_placeholder,
   for i in xrange(opts.num_batches + num_steps_burn_in):
     # Feed dictionaray
     feed_dict = {
-        images_placeholder : np.random.randn(batch_size,image_size,image_size,3)*1e-1,
+        images_placeholder : np.random.randn(batch_size,3,image_size,image_size)*1e-1,
         labels_placeholder : np.ones(batch_size),
     }
 
@@ -101,9 +101,9 @@ def time_tensorflow_run(session, target, images_placeholder, labels_placeholder,
     _ = session.run(target, feed_dict=feed_dict)
     duration = time.time() - start_time
     if i >= num_steps_burn_in:
-      #if not i % 10:
-        #print ('%s: step %d, duration = %.3f' %
-        #       (datetime.now(), i - num_steps_burn_in, duration))
+      if not i % 10:
+        print ('%s: step %d, duration = %.3f' %
+               (datetime.now(), i - num_steps_burn_in, duration))
       total_duration += duration
       total_duration_squared += duration * duration
   mn = total_duration / opts.num_batches
@@ -172,44 +172,10 @@ if __name__ == '__main__':
         "--model_type", default='inception_v1',
     )
     opts = optparser.parse_args()[0]
-    if opts.model_type=='inception_v1':
-        from nets.inception_v1 import inception_v1 as inference
-    elif opts.model_type=='inception_v2':
-        from nets.inception_v2 import inception_v2 as inference
-    elif opts.model_type=='inception_v3':
-        from nets.inception_v3 import inception_v3 as inference
-    elif opts.model_type=='alexnet_v2':
-        from nets.alexnet import alexnet_v2 as inference
-    elif opts.model_type=='resnet_v1_50':
-        from nets.resnet_v1 import resnet_v1_50 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v1_101':
-        from nets.resnet_v1 import resnet_v1_101 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v1_152':
-        from nets.resnet_v1 import resnet_v1_152 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v1_200':
-        from nets.resnet_v1 import resnet_v1_200 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v2_50':
-        from nets.resnet_v2 import resnet_v2_50 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v2_101':
-        from nets.resnet_v2 import resnet_v2_101 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v2_152':
-        from nets.resnet_v2 import resnet_v2_152 as inference
-        ResNet = True
-    elif opts.model_type=='resnet_v2_200':
-        from nets.resnet_v2 import resnet_v2_200 as inference
-        ResNet = True
-    elif opts.model_type=='vgg_16':
-        from nets.vgg import vgg_16 as inference
-    elif opts.model_type=='vgg_19':
-        from nets.vgg import vgg_19 as inference
-    elif opts.model_type=='alexnet_v1':
+    if opts.model_type=='alexnet_v1':
 	from nets.alexnet_v1 import alexnet_v1 as inference
+    elif opts.model_type=='alexnet_benchmark':
+        from nets.alexnet_benchmark import inference as inference
     print("Model:"+opts.model_type+". Batch size is: "+str(opts.batch_size))
     run_benchmark()
 
